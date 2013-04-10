@@ -1,0 +1,23 @@
+{
+	"author": "Tim de Koning <node-livedocx@kingsquare.nl>",
+	"name": "Node-livedocx",
+	"description": "Generate PDF and Word documents from template, using node.js and the livedocx webservice",
+	"version": "0.0.1",
+	"keywords": [
+		"pdf",
+		"word",
+		"office",
+		"generate",
+		"document",
+		"mailmerge"
+	],
+	"dependencies": {
+		"underscore": "1.4.4",
+		"soap": "*",
+		"async": "0.2.7"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/kingsquare/node-livedocx.git"
+	}
+}
