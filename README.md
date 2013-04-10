@@ -50,9 +50,9 @@ run `npm install livedocx`
 
 - Step 3: Assign your options (username, password, template and variables) and your callback function.
 
-The callback function receives any errors and a readStream for the resulting document.
+The callback function receives any errors and a Buffer-object for the resulting document.
 
-See example/index.js for a full example on how to set these variables properly
+See [example/index.js][https://github.com/kingsquare/node-livedocx/blob/master/example/index.js] for a full example on how to set these variables properly
 
 - Step 4: Learn more
 
