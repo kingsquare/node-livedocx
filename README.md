@@ -39,19 +39,17 @@ For more information on the used web service, see http://www.livedocx.com/pub/do
 Options:
 ========
 
-All options are _REQUIRED_
-
 ```js
 {
-    username: 'my_username', //your username @ http://www.livedocx.com/
-	  password: 'my_password', // your password @ http://www.livedocx.com/
-	  templateFormat: 'DOCX', // may be one of DOCX, DOC, RTF
-	  template: 'SGVsbG8gV29ybGQ=', // A base64 encoded binary file, see example/index.js for an example
-	  resultFormat: 'PDF', // may be one of DOCX, DOC, RTF and PDF
-	  variables: {
-	      foo: 'bar', //all your document variables
-	      ...
-	}
+    username: 'my_username', // REQUIRED: your username @ http://www.livedocx.com/
+    password: 'my_password', // REQUIRED: your password @ http://www.livedocx.com/
+    template: 'SGVsbG8gV29ybGQ=......', // REQUIRED:  A base64 encoded string version of a binary file, see example/index.js for an example
+    templateFormat: 'DOCX', // Default: DOCX. Describe the type of template used. May be one of DOCX, DOC, RTF
+    resultFormat: 'PDF', // Default: PDF. Describe the type of result document. May be one of DOCX, DOC, RTF and PDF
+    variables: {
+        foo: 'bar', //all your document variables
+        ...
+    }
 }
 ```
 
@@ -62,10 +60,10 @@ Example:
 var livedocx = require('livedocx');
 
 livedocx(options, function (err,  resultBuffer) {
-	if (err) {
-		return console.log('Something went wrong!', err);
-	}
-	fs.writeFile('result.pdf', resultBuffer);
+    if (err) {
+        return console.log('Something went wrong!', err);
+    }
+    fs.writeFile('result.pdf', resultBuffer);
 });
 ```
 

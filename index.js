@@ -13,6 +13,10 @@ module.exports = exports = function (options, next) {
 		}
 	}
 
+	options.variables = options.variables || {};
+	options.templateFormat = options.resultFormat || 'DOCX';
+	options.resultFormat = options.resultFormat || 'PDF';
+
 	soap.createClient(url, function(err, client) {
 		if (err) {
 			return next(err)
@@ -21,11 +25,12 @@ module.exports = exports = function (options, next) {
 
 		client.LogIn({ username: options.username, password: options.password }, function(err) {
 			if (err) {
+				log(client.lastRequest);
 				return next(err)
 			}
 
 			//parallel is not support by soap client
-			async.parallel([
+			async.series([
 				function (callback) {
 					client.SetLocalTemplate({
 						format: options.templateFormat,
@@ -69,6 +74,7 @@ module.exports = exports = function (options, next) {
 				}
 			], function (err) {
 				if (err) {
+					log(client.lastRequest);
 					return next(err)
 				}
 				log('All prepared!, creating document');

@@ -2,11 +2,11 @@ var liveDocx = require('../index'), fs = require('fs');
 
 //CONFIG
 var config = {
-    username: '', // enter your livedocx username here
+	username: '', // enter your livedocx username here
 	password: '' // enter your livedocx password here
 };
 
-if ((config.username === '') || (config.password = '')) {
+if ((config.username === '') || (config.password === '')) {
 	return console.log('A username and password are required.')
 }
 
