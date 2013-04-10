@@ -8,8 +8,33 @@ with mail-merge.
 This library may be used as 'middleware': just pass a callback function. Any error in the generation process will be
 propagated as the first argument of the callback function. See example below.
 
-Usage:
-======
+
+Example
+-------
+
+```js
+var fs = require('fs'), livedocx = require('livedocx'), options;
+
+options = {
+    template: fs.readFileSync('my_template.docx').toString('base64'),
+    variables: {
+        foo: 'bar',
+        something: 'else'
+        ...
+    },
+    ...
+}
+
+livedocx(options, function (err,  resultBuffer) {
+    if (err) {
+        return console.log('Something went wrong!', err);
+    }
+    fs.writeFile('result.pdf', resultBuffer);
+});
+```
+
+Usage
+-----
 
 - Step 1: Sign up for an account
 
@@ -27,11 +52,7 @@ run `npm install livedocx`
 
 The callback function receives any errors and a readStream for the resulting document.
 
-```js
-require('livedocx')(options, next);
-```
-
-See example/index.js on how to set these variables properly
+See example/index.js for a full example on how to set these variables properly
 
 - Step 4: Learn more
 
@@ -39,8 +60,8 @@ For more information on template options, see http://www.livedocx.com/pub/docume
 For more information on the used web service, see http://www.livedocx.com/pub/documentation/api.aspx
 
 
-Options:
-========
+Options
+-------
 
 ```js
 {
@@ -56,21 +77,7 @@ Options:
 }
 ```
 
-Example:
-========
-
-```js
-var livedocx = require('livedocx');
-
-livedocx(options, function (err,  resultBuffer) {
-    if (err) {
-        return console.log('Something went wrong!', err);
-    }
-    fs.writeFile('result.pdf', resultBuffer);
-});
-```
-
 DISCLAIMER
-==========
+----------
 
 The author is not in any way related to the Livedocx service or the company behind that service.
