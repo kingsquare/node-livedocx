@@ -57,6 +57,7 @@ See [example/index.js](https://github.com/kingsquare/node-livedocx/blob/master/e
 **Step 4**: Learn more
 
 For more information on template options, see http://www.livedocx.com/pub/documentation/templates.aspx
+
 For more information on the used web service, see http://www.livedocx.com/pub/documentation/api.aspx
 
 
