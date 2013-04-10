@@ -36,7 +36,7 @@ livedocx(options, function (err,  resultBuffer) {
 Usage
 -----
 
-- Step 1: Sign up for an account
+**Step 1**: Sign up for an account
 
 Before you can start using LiveDocx, you must first sign up for an account, see:
 
@@ -44,17 +44,17 @@ https://www.livedocx.com/user/account_registration.aspx
 
 (250 free documents per day, see http://www.livedocx.com/pub/pricing for additional plans)
 
-- Step 2: Install node-livedocx.
+**Step 2**: Install node-livedocx.
 
 run `npm install livedocx`
 
-- Step 3: Assign your options (username, password, template and variables) and your callback function.
+**Step 3**: Assign your options (username, password, template and variables) and your callback function.
 
 The callback function receives any errors and a Buffer-object for the resulting document.
 
-See [example/index.js][https://github.com/kingsquare/node-livedocx/blob/master/example/index.js] for a full example on how to set these variables properly
+See [example/index.js](https://github.com/kingsquare/node-livedocx/blob/master/example/index.js) for a full example on how to set these variables properly
 
-- Step 4: Learn more
+**Step 4**: Learn more
 
 For more information on template options, see http://www.livedocx.com/pub/documentation/templates.aspx
 For more information on the used web service, see http://www.livedocx.com/pub/documentation/api.aspx
