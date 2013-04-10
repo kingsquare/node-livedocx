@@ -1,3 +1,6 @@
+Generate PDF using Word templates using node.js
+===============================================
+
 Node-livedocx allows developers to generate documents by combining structured data from node.js with a template, created
 in a word processor. The resulting document can be saved as a PDF, DOCX, DOC or RTF file. The concept is the same as
 with mail-merge.
