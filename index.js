@@ -1,22 +1,18 @@
-var soap , _, url, debug, async;
-
-//CONFIG
-debug = false;
-
-//END OF CONFIG :-)
+var soap , _, url, async;
 
 soap = require('soap');
 _ = require('underscore');
 url = 'https://api.livedocx.com/2.1/mailmerge.asmx?wsdl';
 async = require('async');
 
-function log(message) {
-	if (debug) {
-		console.log(message);
-	}
-};
-
 module.exports = exports = function (options, next) {
+
+	function log(message) {
+		if (options.debug) {
+			console.log(message);
+		}
+	}
+
 	soap.createClient(url, function(err, client) {
 		if (err) {
 			return next(err)
@@ -71,7 +67,7 @@ module.exports = exports = function (options, next) {
 						callback(err, result)
 					});
 				}
-			], function (err, results) {
+			], function (err) {
 				if (err) {
 					return next(err)
 				}
