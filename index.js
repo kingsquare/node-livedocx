@@ -7,14 +7,14 @@ async = require('async');
 
 module.exports = exports = function (options, next) {
 
-	function log(message) {
+	function log(arguments) {
 		if (options.debug) {
-			console.log(message);
+			console.log(arguments);
 		}
 	}
 
 	options.variables = options.variables || {};
-	options.templateFormat = options.resultFormat || 'DOCX';
+	options.templateFormat = options.templateFormat || 'DOCX';
 	options.resultFormat = options.resultFormat || 'PDF';
 
 	soap.createClient(url, function(err, client) {
@@ -24,55 +24,61 @@ module.exports = exports = function (options, next) {
 		log('Client created');
 
 		client.LogIn({ username: options.username, password: options.password }, function(err) {
+			var tasks = [];
 			if (err) {
 				log(client.lastRequest);
 				return next(err)
 			}
 
 			//parallel is not support by soap client
-			async.series([
-				function (callback) {
-					client.SetLocalTemplate({
-						format: options.templateFormat,
-						template: options.template
-					}, callback);
-				},
-				function (callback) {
-					_.each(options.variables, function (value, key) {
-						var blockFieldConfig;
-						if (_.isArray(value)) {
-							blockFieldConfig = {
-								blockName: key,
-								blockFieldValues: []
-							};
+			tasks.push(function (callback) {
+				client.SetLocalTemplate({
+					format: options.templateFormat,
+					template: options.template
+				}, callback)
+			});
 
-							_.each(value, function (subValue) {
-								blockFieldConfig.blockFieldValues.push({
-									ArrayOfString: [{
-										string: _.keys(subValue)
-									}, {
-										string: _.values(subValue)
-									}]
-								});
-							});
+			// SetBlockFieldValues
+			_.each(options.variables, function (value, key) {
+				var blockFieldConfig;
+				if (_.isArray(value)) {
+					blockFieldConfig = {
+						blockName: key,
+						blockFieldValues: []
+					};
 
-							client.SetBlockFieldValues(blockFieldConfig, callback);
-							delete options.variables[key];
-						}
+					_.each(value, function (subValue) {
+						blockFieldConfig.blockFieldValues.push({
+							ArrayOfString: [{
+								string: _.keys(subValue)
+							}, {
+								string: _.values(subValue)
+							}]
+						});
 					});
-				},
-				function (callback) {
-					client.SetFieldValues({ fieldValues: [{
-						ArrayOfString: [{
-							string: _.keys(options.variables)
-						}, {
-							string: _.values(options.variables)
-						}]
-					}]}, function (err, result) {
-						callback(err, result)
+
+					tasks.push(function (callback) {
+						client.SetBlockFieldValues(blockFieldConfig, callback);
 					});
+					delete options.variables[key];
 				}
-			], function (err) {
+			});
+
+			// Set the rest of the values
+			tasks.push(function (callback) {
+				client.SetFieldValues({ fieldValues: [{
+					ArrayOfString: [{
+						string: _.keys(options.variables)
+					}, {
+						string: _.values(options.variables)
+					}]
+				}]}, function (err, result) {
+					callback(err, result)
+				});
+			});
+
+			//Go!
+			async.series(tasks, function (err) {
 				if (err) {
 					log(client.lastRequest);
 					return next(err)

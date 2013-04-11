@@ -1,4 +1,4 @@
-var liveDocx = require('../index'), fs = require('fs');
+var liveDocx = require('node-livedocx'), fs = require('fs');
 
 //CONFIG
 var config = {
