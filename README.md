@@ -46,7 +46,7 @@ https://www.livedocx.com/user/account_registration.aspx
 
 **Step 2**: Install node-livedocx.
 
-run `npm install livedocx`
+run `npm install node-livedocx`
 
 **Step 3**: Assign your options (username, password, template and variables) and your callback function.
 
