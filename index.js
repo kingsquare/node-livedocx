@@ -1,20 +1,17 @@
 (function () {
 	'use strict';
 
-	var soap, _, url, async, soapSanitize;
+	var soap, _, url, async, soapSanitize, queue = [];
 
 	soap = require('soap');
 	_ = require('underscore');
 	url = 'https://api.livedocx.com/2.1/mailmerge.asmx?wsdl';
 	async = require('async');
 
-	//crappy soap client can not handle empty strings!
+	//crappy soap client can not hanlde accept empty strings!
 	soapSanitize = function (values) {
 		var result = { keys: [], values: [] };
 		_.each(values, function (value, key) {
-			if (_.isNumber(value)) {
-				value = String(value);
-			}
 			if (!_.isString(value)) {
 				throw new Error(key + ': ' + value + ' is not a string');
 			}
@@ -26,27 +23,23 @@
 		return result;
 	};
 
-	module.exports = function (options, next) {
+	//crappy soap client can not operate asynchroneous in any way! If encoding is in progress, WAIT for it to finish!
+	queue = async.queue(function (options, next) {
 		function log(message) {
 			if (options.debug) {
 				console.log(message);
 			}
 		}
-
-		options.variables = options.variables || {};
-		options.templateFormat = options.templateFormat || 'DOCX';
-		options.resultFormat = options.resultFormat || 'PDF';
-
-		log('Starting livedocx', options);
+		log('Starting job');
 		log(options);
 
-		soap.createClient(url, function (err, client) {
+		soap.createClient(url, function(err, client) {
 			if (err) {
 				return next(err);
 			}
 			log('Client created');
 
-			client.LogIn({ username: options.username, password: options.password }, function (err) {
+			client.LogIn({ username: options.username, password: options.password }, function(err) {
 				var tasks = [];
 				if (err) {
 					return next(err);
@@ -139,5 +132,12 @@
 				});
 			});
 		});
+	}, 1);
+
+	module.exports = function (options, next) {
+		options.variables = options.variables || {};
+		options.templateFormat = options.templateFormat || 'DOCX';
+		options.resultFormat = options.resultFormat || 'PDF';
+		queue.push(options, next);
 	};
 }());
