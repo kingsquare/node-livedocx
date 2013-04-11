@@ -2,7 +2,7 @@
 	"author": "Tim de Koning <node-livedocx@kingsquare.nl>",
 	"name": "node-livedocx",
 	"description": "Generate PDF and Word documents from template, using node.js and the livedocx webservice",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"keywords": [
 		"pdf",
 		"word",
