@@ -13,7 +13,7 @@ Example
 -------
 
 ```js
-var fs = require('fs'), livedocx = require('livedocx'), options;
+var fs = require('fs'), livedocx = require('node-livedocx'), options;
 
 options = {
     template: fs.readFileSync('my_template.docx').toString('base64'),
